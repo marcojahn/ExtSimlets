@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ext.ux.ajax.*</title>
+
+        <!-- extjs -->
+        <script type="text/javascript" src="../lib/ext/ext-all.js"></script>
+
+        <!-- JASMINE -->
+        <link rel="stylesheet" type="text/css" href="../lib/jasmine/jasmine.css"/>
+        <script type="text/javascript" src="../lib/jasmine/jasmine.js"></script>
+        <script type="text/javascript" src="../lib/jasmine/jasmine-html.js"></script>
+
+        <!-- configuration enables Ext loading mechanism files with ext dependencies must be placed after if Ext.require is used -->
+        <script type="text/javascript">
+            Ext.Loader.setConfig({
+                enabled: true,
+                disableCaching: false,
+                paths: {
+                    'Ext.ux': '../lib/ext/examples/ux'
+                }
+            });
+        </script>
+
+        <script type="text/javascript" src="../lib/ext/examples/ux/ajax/SimManager.js"></script>
+
+        <!-- spec files -->
+        <script type="text/javascript" src="./js/test.js"></script>
+
+    </head>
+    <body>
+
+    <script type="text/javascript">
+        Ext.onReady(function () {
+            function log(str) {
+                var console = jasmine.getGlobal().console;
+
+                if (console && console.log) {
+                    console.log(str);
+                }
+            }
+            log('before start');
+
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 250;
+            /**
+             Create the `HTMLReporter`, which Jasmine calls to provide results of each spec and each suite. The Reporter is responsible for presenting results to the user.
+             */
+            var htmlReporter = new jasmine.HtmlReporter();
+            jasmineEnv.addReporter(htmlReporter);
+            log('reporter added');
+            /**
+             Delegate filtering of specs to the reporter. Allows for clicking on single suites or specs in the results to only run a subset of the suite.
+             */
+            jasmineEnv.specFilter = function (spec) {
+                return htmlReporter.specFilter(spec);
+            };
+
+            log('execute');
+
+            execJasmine();
+
+            log('finished');
+
+            function execJasmine () {
+                jasmineEnv.execute();
+            }
+        });
+    </script>
+
+    </body>
+</html>
